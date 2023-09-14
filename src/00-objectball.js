@@ -115,35 +115,25 @@ function gameObject() {
     }
 }
     
+// Idea: Iterate over home and away team
+// For each case, check keys until we get players key
+// If we get players key, iterate through object to obtain the right player
+// Once we find the player, return their points
 
-// Not working, finish tomorrow 9/14
 function numPointsScored(name) {
     const game = gameObject();
     for (let gameKey in game) {
         let teamObj = game[gameKey];
         for (let teamKey in teamObj) {
             if (teamKey === 'players') {
-                let data = teamObj[teamKey];
-            }
-            for (let key in data) {
-                if (key === name) {
-                    return key.points;
+                let playerObj = teamObj[teamKey];
+                for (let playerKey in playerObj) {
+                    if (playerKey === name) {
+                        return playerObj[playerKey]['points'];
+                    }
                 }
             }
-        }
+        }   
     }
 }
-
-const points = numPointsScored('Alan Anderson');
-
-// const numPointsScored = name => {
-//     const game = gameObject();
-//     for (let key in game) {
-//         for (let i = 0; i < key.players.length; i++) {
-//             if (key.players[i] === name) {
-//                 return key.players[name];
-//             }
-//         }
-//     }
-// }   
-
+// const pointsVar = numPointsScored('DeSagna Diop');
