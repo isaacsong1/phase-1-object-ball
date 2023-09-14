@@ -120,7 +120,7 @@ function gameObject() {
 // If we get players key, iterate through object to obtain the right player
 // Once we find the player, return their points
 
-function numPointsScored(name) {
+function numPointsScored(playerName) {
     const game = gameObject();
     for (let gameKey in game) {
         let teamObj = game[gameKey];
@@ -128,7 +128,7 @@ function numPointsScored(name) {
             if (teamKey === 'players') {
                 let playerObj = teamObj[teamKey];
                 for (let playerKey in playerObj) {
-                    if (playerKey === name) {
+                    if (playerKey === playerName) {
                         return playerObj[playerKey]['points'];
                     }
                 }
@@ -137,3 +137,47 @@ function numPointsScored(name) {
     }
 }
 // const pointsVar = numPointsScored('DeSagna Diop');
+
+function shoeSize(playerName) {
+    // Return players shoe size
+}
+
+function teamColors(teamName) {
+    // Returns array of team colors
+}
+
+function teamNames() {
+    // Return team names
+}
+
+function playerNumbers(teamName) {
+    // Returns array of jersey numbers for the team
+}
+
+function playerStats(playerName) {
+    // Returns object of that player's stats
+}
+
+function bigShoeRebounds() {
+    // Returns number of rebounds associated with player with biggest shoe size
+}
+
+// Bonus Questions
+function mostPointsScored() {
+    // Returns player with most points
+}
+
+function winningTeam() {
+    // Returns which team has most points
+}
+
+function playerWithLongestName() {
+    // Returns player with longest name (assuming spaces count as an index)
+}
+
+// Super Bonus
+function doesLongNameSteamATon() {
+    // Returns true if palyer with longest name had most steals
+}
+
+
