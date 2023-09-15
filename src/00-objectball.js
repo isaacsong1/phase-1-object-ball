@@ -115,67 +115,155 @@ function gameObject() {
     }
 }
     
-// Idea: Iterate over home and away team
-// For each case, check keys until we get players key
-// If we get players key, iterate through object to obtain the right player
-// Once we find the player, return their points
+// Declare gameObj object
+const gameObj = gameObject();
+const playerStatsObj = {...gameObj.home.players, ...gameObj.away.players};
 
-function numPointsScored(playerName) {
-    const game = gameObject();
-    for (let gameKey in game) {
-        let teamObj = game[gameKey];
-        for (let teamKey in teamObj) {
-            if (teamKey === 'players') {
-                let playerObj = teamObj[teamKey];
-                for (let playerKey in playerObj) {
-                    if (playerKey === playerName) {
-                        return playerObj[playerKey]['points'];
-                    }
-                }
-            }
-        }   
+// Function Building
+/* Idea: 
+    Iterate team keys in gameObj
+    For each case, iterate keys until we get players key
+    If we get players key, iterate through object to obtain the right player
+    Once we find the player, return their points
+
+    New Idea:
+    Return points of player if player stats exists in allPlayerStats, else, return not a player
+*/
+const numPointsScored = playerName => {
+    // for (let gameKey in gameObj) {
+    //     let teamObj = gameObj[gameKey].players;
+    //     if (playerName in teamObj) {
+    //         return teamObj[playerName]['points'];
+    //     } 
+    // }   
+    // return 'No player with that name';
+    // return playerStatsObj[playerName] ? playerStatsObj[playerName].points : 'No player with that name';
+    return playerStatsObj.hasOwnProperty(playerName) ? playerStatsObj[playerName].points : 'No player with that name';
+}
+
+/* Idea: 
+    Use same iterating method as above and return shoe size instead of points
+
+    New Idea:
+    return shoe size or no player using ternary operator
+*/
+const shoeSize = playerName => {
+    // Return players shoe size
+    // for (let gameKey in gameObj) {
+    //     let teamObj = gameObj[gameKey]['players'];
+    //     if (playerName in teamObj) {
+    //         return teamObj[playerName]['shoe'];
+    //     } 
+    // }   
+    // return 'No players with that name';
+
+    return playerStatsObj[playerName] ? playerStatsObj[playerName].shoe : 'No player with that name';
+}
+
+/* Idea: 
+    Iterate over first set of keys
+    Check if teamKey === argument
+    If it does, return array of team colors
+
+    New Idea: 
+    Use ternary operator to check if teamName exists in gameObj then return colors if true, no team name if false
+*/
+const teamColors = teamName => {
+    // Returns array of team colors
+    // for (let teamKey in gameObj) {
+    //     if (teamKey === teamName) {
+    //         return gameObj.teamKey.colors;
+    //     }  
+    // }
+    // return 'No team with that name';
+    return gameObj[teamName]
+}
+
+/* Idea:
+    Return the keys of gameObj object
+*/
+const teamNames = () => {
+    // Return team names
+    return Object.keys(gameObj);
+}
+
+// takes in teamName argument and returns array of jersey numbers for that team
+function playerNumbers(team) {
+    // Returns array of jersey numbers for the team
+    if (gameObj.home.teamName === team) {
+        let homeJerseyNum = [];
+        for (let playerName in gameObj.home.players) {
+            homeJerseyNum.push(gameObj.home.players[playerName].number);
+        }
+        return homeJerseyNum;
+    } else if (gameObj.away.teamName === team) {
+        let awayJerseyNum = [];
+        for (let playerName in gameObj.away.players) {
+            awayJerseyNum.push(gameObj.away.players[playerName].number);
+        }
+        return awayJerseyNum;
+    } else {
+        return 'No team with that name.';
     }
 }
-// const pointsVar = numPointsScored('DeSagna Diop');
 
-function shoeSize(playerName) {
-    // Return players shoe size
-}
-
-function teamColors(teamName) {
-    // Returns array of team colors
-}
-
-function teamNames() {
-    // Return team names
-}
-
-function playerNumbers(teamName) {
-    // Returns array of jersey numbers for the team
-}
-
+// takes playerName as arg and returns objetc of player's stats
 function playerStats(playerName) {
     // Returns object of that player's stats
+    return playerStatsObj.hasOwnProperty(playerName) ? playerStatsObj[playerName] : 'No player with that name.';
 }
 
+// returns numRebounds of player with biggest shoe size
 function bigShoeRebounds() {
     // Returns number of rebounds associated with player with biggest shoe size
+    let largestShoe = 0;
+    for (let playerName in playerStatsObj) {
+        if (playerStatsObj[playerName].shoe > largestShoe) {
+            largestShoe = playerStatsObj[playerName].shoe;
+        }
+    }
+    for (let playerName in playerStatsObj) {
+        if (playerStatsObj[playerName].shoe === largestShoe) {
+            return playerStatsObj[playerName].rebounds;
+        }
+    }
 }
 
 // Bonus Questions
+// Returns player with most points
 function mostPointsScored() {
     // Returns player with most points
 }
 
+// Returns team with most points
 function winningTeam() {
     // Returns which team has most points
+    let homePoints = 0
+    let awayPoints = 0
+
+    for (let team in gameObj) {
+        const {players} = gameObj[team]
+        const teamPlayersStatsArray = Object.values(players)
+
+        for (let stat of teamPlayersStatsArray) {
+            if (team === 'home') {
+                homePoints += stat.points
+            } else {
+                awayPoints += stat.points
+            }
+        }
+    }
+    
+    return homePoints > awayPoints ? gameObj.home.teamName : gameObj.away.teamName
 }
 
+// Player with longest name
 function playerWithLongestName() {
     // Returns player with longest name (assuming spaces count as an index)
 }
 
 // Super Bonus
+// returns true if player with longest name had most steals
 function doesLongNameSteamATon() {
     // Returns true if palyer with longest name had most steals
 }
